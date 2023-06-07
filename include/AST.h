@@ -13,7 +13,7 @@ namespace AST {
     // Node
     class Node {
     public:
-        virtual TokenType tokenLiteral() const = 0;
+        virtual TokenType tokenName() const = 0;
     };
 
     // Statement
@@ -38,7 +38,7 @@ namespace AST {
         explicit Identifier(std::string_view value);
 
         [[nodiscard]]
-        TokenType tokenLiteral() const override;
+        TokenType tokenName() const override;
 
         [[nodiscard]]
         std::string_view value() const;

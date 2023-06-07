@@ -11,7 +11,7 @@ template<class T, size_t Size>
 void LEXER_CHECK_ALL_TOKENS(Lexer &lexer, const T (&expectedTokens)[Size]) {
     int i = 0;
     for (const auto &expectedToken: expectedTokens) {
-        const auto token = lexer.nextToken();
+        const auto token = lexer.advanceToken();
 
         REQUIRE(token.literal == expectedToken.literal);
 

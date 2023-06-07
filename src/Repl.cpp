@@ -15,7 +15,7 @@ namespace Repl {
             }
 
             auto lexer = Lexer(line);
-            for (auto token = lexer.nextToken(); token.type != TokenType::Eof; token = lexer.nextToken()) {
+            for (auto token = lexer.advanceToken(); token.type != TokenType::Eof; token = lexer.advanceToken()) {
                 out << token << '\n';
             }
         }

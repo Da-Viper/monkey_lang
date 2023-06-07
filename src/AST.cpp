@@ -7,12 +7,12 @@
 #include <utility>
 
 namespace AST {
-    TokenType Program::tokenLiteral() const {
+    TokenType Program::tokenName() const {
         return token_.type;
     }
 
     // LET
-    TokenType LetStatement::tokenLiteral() const {
+    TokenType LetStatement::tokenName() const {
         return TokenType::Let;
     }
 
@@ -29,7 +29,7 @@ namespace AST {
               value_(std::move(value)) {}
 
     // Identifier
-    TokenType Identifier::tokenLiteral() const {
+    TokenType Identifier::tokenName() const {
         return TokenType::Identifier;
     }
 

@@ -18,7 +18,7 @@ void letStatementTest(const AST::Statement &statement, std::string_view name) {
     const auto *dynCast = dynamic_cast<const LetStatement *>(&statement);
     REQUIRE(dynCast != nullptr);
     REQUIRE(dynCast->identifierName() == name);
-    REQUIRE(dynCast->tokenLiteral() == TokenType::Let);
+    REQUIRE(dynCast->tokenName() == TokenType::Let);
 }
 
 TEST_CASE("Let Statement", "[Parser]") {

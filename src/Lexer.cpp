@@ -3,9 +3,10 @@
 
 #include <algorithm>
 
-Lexer::Lexer(const std::string &in) : input_(in), position_(input_.cbegin()) {}
+Lexer::Lexer(std::string_view in) : input_(in), position_(input_.cbegin()) {}
 
-Token Lexer::nextToken() {
+
+Token Lexer::advanceToken() {
     skipWhiteSpace();
 
     if (position_ >= input_.end()) {

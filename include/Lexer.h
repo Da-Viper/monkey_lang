@@ -7,11 +7,11 @@
 class Lexer final {
 
 public:
-    explicit Lexer(const std::string &input);
+    explicit Lexer(std::string_view input);
 
     char peekChar() const;
 
-    Token nextToken();
+    Token advanceToken();
 
 private:
     void skipWhiteSpace();
