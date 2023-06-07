@@ -10,7 +10,9 @@ set(SOURCES
         src/Repl.cpp
         src/Lexer.cpp
         src/Token.cpp
-        src/AST.cpp include/AST.h include/Parser.h src/Parser.cpp)
+        src/AST.cpp
+        src/Parser.cpp
+        )
 
 
 add_subdirectory(test)

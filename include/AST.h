@@ -2,49 +2,76 @@
 #define MONKEY_LANG_AST_H
 
 #include <string_view>
+#include <utility>
 #include <vector>
 #include <memory>
 #include "Token.h"
 
+enum class TokenType;
 namespace AST {
 
     // Node
     class Node {
     public:
-        virtual std::string_view tokenLiteral() const = 0;
+        virtual TokenType tokenLiteral() const = 0;
     };
 
     // Statement
     class Statement : public Node {
-        void statementNode();
+    public:
+        virtual void statementNode() = 0;
+
+        virtual ~Statement() = default;
     };
 
     // Expression
     class Expression : public Node {
-        void expressionNode();
+    public:
+        virtual void expressionNode() = 0;
+
+        virtual ~Expression() = default;
     };
 
     // Identifier
     class Identifier : public Node {
+    public:
+        explicit Identifier(std::string_view value);
+
+        [[nodiscard]]
+        TokenType tokenLiteral() const override;
+
+        [[nodiscard]]
+        std::string_view value() const;
+
+    private:
+        std::string_view value_;
     };
 
     // Program
-    class Program final : public Node {
-    public:
+    struct Program final : public Node {
         [[nodiscard]]
-        std::string_view tokenLiteral() const override;
+        TokenType tokenLiteral() const override;
 
-    private:
-        std::vector<Statement> statements;
+        Token token_;
+        std::vector<std::unique_ptr<Statement>> statements;
     };
 
     class LetStatement : public Statement {
     public:
-        std::string_view tokenLiteral() const override;
+        // TODO: remove this constructor;
+        explicit LetStatement(Identifier name): name_(std::move(name)){}
+        LetStatement(Identifier name, std::unique_ptr<Expression> value);
 
+        [[nodiscard]]
+        TokenType tokenLiteral() const override;
+
+        std::string_view identifierName() const;
+
+        void statementNode() override;
+
+        // TODO make this private;
+        Identifier name_;
     private:
-        Token token_;
-        std::unique_ptr<Identifier> name_;
         std::unique_ptr<Expression> value_;
     };
 }

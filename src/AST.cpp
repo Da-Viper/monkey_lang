@@ -4,14 +4,38 @@
 
 #include "AST.h"
 
+#include <utility>
+
 namespace AST {
-    std::string_view Program::tokenLiteral() const {
-        return std::string_view();
+    TokenType Program::tokenLiteral() const {
+        return token_.type;
     }
 
-// LET
-    std::string_view LetStatement::tokenLiteral() const {
-        return Token::toString(token_);
+    // LET
+    TokenType LetStatement::tokenLiteral() const {
+        return TokenType::Let;
     }
 
+    std::string_view LetStatement::identifierName() const {
+        return name_.value();
+    }
+
+    void LetStatement::statementNode() {
+
+    }
+
+    LetStatement::LetStatement(Identifier name, std::unique_ptr<Expression> value)
+            : name_(std::move(name)),
+              value_(std::move(value)) {}
+
+    // Identifier
+    TokenType Identifier::tokenLiteral() const {
+        return TokenType::Identifier;
+    }
+
+    std::string_view Identifier::value() const {
+        return value_;
+    }
+
+    Identifier::Identifier(std::string_view value) : value_(value) {}
 }
