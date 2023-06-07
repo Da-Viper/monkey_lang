@@ -16,9 +16,17 @@ include_directories(${CMAKE_SOURCE_DIR}/include)
 set(TEST_SOURCES
         ${CMAKE_SOURCE_DIR}/src/Lexer.cpp
         ${CMAKE_SOURCE_DIR}/src/Token.cpp
-        ../src/Repl.cpp ../include/Repl.h)
+        ${CMAKE_SOURCE_DIR}/src/Repl.cpp
+        ${CMAKE_SOURCE_DIR}/src/AST.cpp
+        ${CMAKE_SOURCE_DIR}/src/Parser.cpp
+        )
 
-add_executable(unittest lexer_test.cpp ${TEST_SOURCES})
+set(TEST_CASES
+        parser/LetStatementTest.cpp
+        lexer_test.cpp
+        )
+
+add_executable(unittest ${TEST_CASES} ${TEST_SOURCES})
 
 target_link_libraries(unittest Catch2::Catch2)
 
