@@ -8,6 +8,7 @@
 #include "Token.h"
 
 enum class TokenType;
+
 namespace AST {
 
     // Node
@@ -32,6 +33,9 @@ namespace AST {
         virtual ~Expression() = default;
     };
 
+    using ExpressionPtr = std::unique_ptr<Expression>;
+    using StatementPtr = std::unique_ptr<Statement>;
+
     // Identifier
     class Identifier : public Node {
     public:
@@ -50,20 +54,21 @@ namespace AST {
     // Program
     struct Program final : public Node {
         [[nodiscard]]
-        TokenType tokenLiteral() const override;
+        TokenType tokenName() const override;
 
         Token token_;
-        std::vector<std::unique_ptr<Statement>> statements;
+        std::vector<StatementPtr> statements;
     };
 
     class LetStatement : public Statement {
     public:
         // TODO: remove this constructor;
-        explicit LetStatement(Identifier name): name_(std::move(name)){}
-        LetStatement(Identifier name, std::unique_ptr<Expression> value);
+        explicit LetStatement(Identifier name) : name_(std::move(name)) {}
+
+        LetStatement(Identifier name, ExpressionPtr value);
 
         [[nodiscard]]
-        TokenType tokenLiteral() const override;
+        TokenType tokenName() const override;
 
         std::string_view identifierName() const;
 
@@ -72,7 +77,13 @@ namespace AST {
         // TODO make this private;
         Identifier name_;
     private:
-        std::unique_ptr<Expression> value_;
+        ExpressionPtr value_;
+    };
+
+    class ReturnStatement : public Statement {
+        TokenType tokenName() const override;
+
+        ExpressionPtr return_value_;
     };
 }
 #endif //MONKEY_LANG_AST_H

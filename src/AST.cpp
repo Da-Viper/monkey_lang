@@ -38,4 +38,9 @@ namespace AST {
     }
 
     Identifier::Identifier(std::string_view value) : value_(value) {}
+
+    // Return Statement
+    TokenType ReturnStatement::tokenName() const {
+        return TokenType::Return;
+    }
 }

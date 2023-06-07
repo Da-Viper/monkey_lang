@@ -24,7 +24,7 @@ set(TEST_SOURCES
 set(TEST_CASES
         parser/LetStatementTest.cpp
         lexer_test.cpp
-        )
+        parser/ReturnStatementTest.cpp)
 
 add_executable(unittest ${TEST_CASES} ${TEST_SOURCES})
 
