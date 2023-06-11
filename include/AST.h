@@ -108,6 +108,8 @@ namespace AST {
 
     class ReturnStatement : public Statement {
     public:
+        //TODO: remove this later
+        explicit ReturnStatement() {};
         explicit ReturnStatement(ExpressionPtr expr) : return_value_(std::move(expr)) {}
 
         TokenType tokenName() const override;
