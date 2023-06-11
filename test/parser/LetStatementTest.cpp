@@ -14,7 +14,7 @@ void letStatementTest(const AST::Statement &statement, std::string_view name) {
     REQUIRE(dynCast->tokenName() == TokenType::Let);
 }
 
-TEST_CASE("Let Statement", "[Parser]") {
+TEST_CASE("Test Let Statement", "[Parser]") {
     SECTION("With Correct Input") {
         const std::string input = R"(let x = 5;
         let y = 10;

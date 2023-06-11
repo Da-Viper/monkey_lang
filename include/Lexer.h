@@ -13,11 +13,17 @@ public:
 
     Token advanceToken();
 
+    Token curToken() const { return curToken_; };
+
+
 private:
     void skipWhiteSpace();
 
+    inline Token nextToken();
+
     std::string_view readIdentifier(std::string_view::const_iterator startPos);
 
+    Token curToken_;
     const std::string_view input_;
     std::string_view::const_iterator position_;
 };

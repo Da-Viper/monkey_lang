@@ -1,6 +1,7 @@
 #include "../include/Token.h"
 
 #include <ostream>
+#include <cassert>
 
 std::optional<TokenType> Token::lookupKeywords(std::string_view word) {
     if (word == "fn") {
@@ -30,68 +31,69 @@ std::optional<TokenType> Token::lookupKeywords(std::string_view word) {
 static std::string_view tokenTypeToString(TokenType tokenType) {
     switch (tokenType) {
         case TokenType::Illegal:
-            return "Illegal";
+            return "illegal";
         case TokenType::Eof:
-            return "Eof";
+            return "eof";
         case TokenType::Identifier:
-            return "Identifier";
+            return "identifier";
         case TokenType::Int:
-            return "Int";
+            return "int";
         case TokenType::Assign:
-            return "Assign";
+            return "=";
         case TokenType::Plus:
-            return "Plus";
+            return "+";
         case TokenType::Minus:
-            return "Minus";
+            return "-";
         case TokenType::Bang:
-            return "Bang";
+            return "!";
         case TokenType::Asterisk:
-            return "Asterisk";
+            return "*";
         case TokenType::Slash:
-            return "Slash";
+            return "/";
         case TokenType::LessThan:
-            return "LessThan";
+            return "<";
         case TokenType::GreaterThan:
-            return "GreaterThan";
+            return ">";
         case TokenType::Eq:
-            return "Eq";
+            return "==";
         case TokenType::NotEq:
-            return "NotEq";
+            return "!=";
         case TokenType::Comma:
-            return "Comma";
+            return "comma";
         case TokenType::Semicolon:
-            return "Semicolon";
+            return ";";
         case TokenType::LParen:
-            return "LParen";
+            return "(";
         case TokenType::RParen:
-            return "RParen";
+            return ")";
         case TokenType::LCurly:
-            return "LCurly";
+            return "{";
         case TokenType::RCurly:
-            return "RCurly";
+            return "}";
         case TokenType::Function:
-            return "Function";
+            return "fn";
         case TokenType::Let:
-            return "Let";
+            return "let";
         case TokenType::True:
-            return "True";
+            return "true";
         case TokenType::False:
-            return "False";
+            return "false";
         case TokenType::If:
-            return "If";
+            return "if";
         case TokenType::Else:
-            return "Else";
+            return "else";
         case TokenType::Return:
-            return "Return";
+            return "return";
     }
+    assert(false && "token type not handled");
 }
 
-std::string_view Token::toString(Token token) {
+std::string_view Token::to_string(Token token) {
     return tokenTypeToString(token.type);
 }
 
 std::ostream &operator<<(std::ostream &os, TokenType tokenType) {
-    return os << "Type: " << tokenTypeToString(tokenType);
+    return os << tokenTypeToString(tokenType);
 }
 
 std::ostream &operator<<(std::ostream &os, Token token) {

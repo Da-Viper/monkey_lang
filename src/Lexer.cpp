@@ -1,12 +1,11 @@
 #include "../include/Lexer.h"
-#include "../include/Token.h"
 
 #include <algorithm>
 
 Lexer::Lexer(std::string_view in) : input_(in), position_(input_.cbegin()) {}
 
 
-Token Lexer::advanceToken() {
+Token Lexer::nextToken() {
     skipWhiteSpace();
 
     if (position_ >= input_.end()) {
@@ -95,4 +94,9 @@ char Lexer::peekChar() const {
         return '\0';
     }
     return *position_;
+}
+
+Token Lexer::advanceToken() {
+    curToken_ = nextToken();
+    return curToken_;
 }

@@ -11,7 +11,7 @@ void returnStatementTest(const AST::Statement &statement) {
     // TODO: Check the value of the return statement;
 }
 
-TEST_CASE("Testing the return statement", "[Parser]") {
+TEST_CASE("Test Return statement", "[Parser]") {
     SECTION("Valid Return Statement") {
         const std::string_view input = "return 5;";
         auto parser = Parser(Lexer(input));

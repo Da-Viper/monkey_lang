@@ -50,7 +50,7 @@ struct Token {
     TokenType type;
     std::string_view literal;
 
-    static std::string_view toString(Token token);
+    static std::string_view to_string(Token token);
     static std::optional<TokenType> lookupKeywords(std::string_view word);
     friend std::ostream &operator<<(std::ostream &os, Token token);
 };
