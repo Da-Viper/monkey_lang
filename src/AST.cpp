@@ -61,7 +61,7 @@ namespace AST {
     Identifier::Identifier(std::string_view value) : value_(value) {}
 
     std::string Identifier::to_string() const {
-        return std::string(value_.data() , value_.length());
+        return std::string(value_.data(), value_.length());
     }
 
     // Return Statement
@@ -89,4 +89,15 @@ namespace AST {
     std::string IntegerLiteral::to_string() const {
         return std::to_string(value_);
     }
+
+    std::string PrefixExpression::to_string() const {
+        std::ostringstream oss;
+        oss << '(' << op << right->to_string() << ')';
+        return oss.str();
+    }
+
+    PrefixExpression::PrefixExpression(Token token, Precedence precedence,
+                                       ExpressionPtr rightExpr) :
+            token(token), op(precedence),
+            right(std::move(rightExpr)) {}
 }  // namespace AST

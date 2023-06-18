@@ -3,12 +3,48 @@
 
 #include <memory>
 #include <string_view>
+#include <string>
 #include <utility>
 #include <vector>
+#include <cassert>
 
 #include "Token.h"
 
 enum class TokenType;
+
+enum Precedence : uint8_t {
+    Lower,
+    Equals,
+    LessGreater,
+    PlusMinus,
+    Multiply,
+    Prefix,
+    Call,
+};
+
+Precedence tokenToPrecendence(TokenType tokenType) {
+    switch (tokenType) {
+        case TokenType::LessThan:
+        case TokenType::GreaterThan:
+            return Precedence::LessGreater;
+        case TokenType::Eq:
+        case TokenType::NotEq:
+            return Precedence::Equals;
+        case TokenType::Asterisk:
+        case TokenType::Slash:
+            return Precedence::Multiply;
+        case TokenType::Plus:
+        case TokenType::Minus:
+            return Precedence::PlusMinus;
+        case TokenType::LParen:
+            return Precedence::Call;
+        default: {
+            assert(false && "No matching Token type to precedence");
+            return Precedence::Lower;
+        }
+    }
+}
+
 
 namespace AST {
 
@@ -110,6 +146,7 @@ namespace AST {
     public:
         //TODO: remove this later
         explicit ReturnStatement() {};
+
         explicit ReturnStatement(ExpressionPtr expr) : return_value_(std::move(expr)) {}
 
         TokenType tokenName() const override;
@@ -157,7 +194,8 @@ namespace AST {
 
     class IntegerLiteral : public Expression {
     public:
-        explicit IntegerLiteral(int64_t val): value_(val) {};
+        explicit IntegerLiteral(int64_t val) : value_(val) {};
+
         TokenType tokenName() const override;
 
         std::string to_string() const override;
@@ -169,6 +207,21 @@ namespace AST {
     };
 
     NODE_PTR(ExpressionStatement);
+
+    struct PrefixExpression : public Expression {
+        PrefixExpression(Token token, Precedence precedence, ExpressionPtr uniquePtr);
+
+        TokenType tokenName() const override {
+            return token.type;
+        }
+
+        std::string to_string() const override;
+
+        Token token; // ! or - ;
+        Precedence op;
+        ExpressionPtr right;
+    };
+
 #undef NODE_PTR
 }  // namespace AST
 #endif  // MONKEY_LANG_AST_H
